@@ -1,0 +1,29 @@
+.course-preview-container {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+
+.course-content {
+  max-width: 800px; /* Ancho máximo para que el texto sea legible */
+  text-align: center;
+}
+
+.course-content h1 {
+  font-size: 2.2rem;
+  color: #eaf0f2;
+  margin-bottom: 2rem;
+}
+
+.course-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #b0bec5;
+  margin-bottom: 1.5rem;
+  text-align: left; /* Alineación a la izquierda para mejor legibilidad */
+}
+
+.course-button-container {
+  margin-top: 2.5rem;
+}

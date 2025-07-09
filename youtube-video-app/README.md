@@ -1,3 +1,6 @@
+Para ejecutar pagina > Abrir terminal y copiar "npm run dev" luego ctrl+click en ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
