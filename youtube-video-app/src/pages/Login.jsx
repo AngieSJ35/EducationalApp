@@ -1,23 +1,33 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // 1. Importa useNavigate
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api'; // 👈 Importamos Axios configurado
 import './Login.css';
 
 function Login() {
-  const navigate = useNavigate(); // 2. Prepara el hook de navegación
+  const navigate = useNavigate();
+  const [correo, setCorreo] = useState('');
+  const [clave, setClave] = useState('');
 
-  // 3. Esta función se ejecutará al enviar el formulario
-  const handleLogin = (event) => {
-    event.preventDefault(); // Evita que la página se recargue
+  const handleLogin = async (event) => {
+    event.preventDefault();
 
-    // 4. Simulamos un usuario y lo guardamos en localStorage
-    const fakeUser = {
-      isLoggedIn: true,
-      name: 'Usuario de Prueba' 
-    };
-    localStorage.setItem('user', JSON.stringify(fakeUser));
+    try {
+      const res = await api.post('/auth/login', {
+        email: correo,
+        password: clave
+      });
+console.log(res)
+      // Guardar datos del usuario
+      localStorage.setItem('user', JSON.stringify(res.data));
+      alert('Inicio de sesión exitoso');
 
-    // 5. Redirigimos al usuario a la primera página del curso
-    navigate('/curso/paso/1'); 
+      // Redirigir al curso
+      navigate('/curso/paso/1');
+
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Correo o clave incorrectos');
+    }
   };
 
   return (
@@ -25,17 +35,30 @@ function Login() {
       <div className="login-box">
         <div className="login-form-content">
           <h1>INICIO DE SESIÓN</h1>
-          {/* 6. Conectamos la función al formulario */}
           <form onSubmit={handleLogin}>
             <div className="input-field">
-              <label>CORREO/CELULAR</label>
-              <input type="text" placeholder="Tu correo o celular..." required />
+              <label>CORREO</label>
+              <input
+                type="text"
+                placeholder="Tu correo..."
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                required
+              />
             </div>
             <div className="input-field">
               <label>CLAVE</label>
-              <input type="password" placeholder="Tu clave..." required />
+              <input
+                type="password"
+                placeholder="Tu clave..."
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+                required
+              />
             </div>
-            <button type="submit" className="button primary login-btn">Iniciar sesión</button>
+            <button type="submit" className="button primary login-btn">
+              Iniciar sesión
+            </button>
           </form>
         </div>
         <div className="login-image-section">

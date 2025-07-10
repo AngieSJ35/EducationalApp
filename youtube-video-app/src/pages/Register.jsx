@@ -1,7 +1,32 @@
 import React from 'react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../api'; // 👈 Importamos Axios configurado
+import './Login.css';
 import './Register.css';
 
 function Register() {
+ const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const res = await api.post('/auth/login', {
+        email: correo,
+        password: clave
+      });
+console.log(res)
+      // Guardar datos del usuario
+      localStorage.setItem('user', JSON.stringify(res.data));
+      alert('Inicio de sesión exitoso');
+
+      // Redirigir al curso
+      navigate('/curso/paso/1');
+
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Correo o clave incorrectos');
+    }
+  };  
   return (
     <div className="register-container">
       <div className="register-box">
