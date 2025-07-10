@@ -11,7 +11,7 @@ import EnglishCoursePreview from './pages/EnglishCoursePreview';
 import CourseStep from './pages/CourseStep';
 
 // **Importa los nuevos componentes**
-import Courses from './components/courses';
+import Courses from './components/Courses';
 import Users from './components/Users';
 import Videos from './components/Videos';
 
