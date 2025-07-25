@@ -4,8 +4,8 @@
 }
 
 .course-step-container {
-  border: 5px solid lime; /* Verde lima */
-/*}*/
+  border: 5px solid lime;
+}*/
 /* ======================================= */
 
 * {
@@ -35,12 +35,17 @@ body {
 /* Estilos del Header Compartido */
 .main-header {
   background-color: #72b6ba;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem 3rem;
   border-bottom: 1px solid #67a5a9;
   width: 100%;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .main-header .logo {
@@ -48,19 +53,35 @@ body {
   font-size: 1.8rem;
   color: white;
   text-decoration: none;
+  flex: 0 0 auto;
 }
 
-.main-header nav {
+.main-nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
+  flex: 1;
+  justify-content: center;
 }
 
-.main-header nav a {
+.nav-link {
   color: white;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #f0f0f0;
+  text-decoration: underline;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 0 0 auto;
 }
 
 .user-greeting {
@@ -143,4 +164,15 @@ body {
   cursor: pointer;
   border-radius: 0 20px 20px 0;
   font-size: 1rem;
+}
+/* src/index.css */
+
+/* ... tus estilos anteriores ... */
+
+/* --- Estilos de Accesibilidad --- */
+/* Mejora el estilo del foco para quien navega con teclado */
+:focus-visible {
+  outline: 3px solid #72b6ba; /* Un contorno celeste y grueso */
+  outline-offset: 3px;
+  border-radius: 5px; /* Redondea el contorno */
 }

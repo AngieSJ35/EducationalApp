@@ -1,3 +1,4 @@
+// src/components/Layout.jsx
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import Header from './Header';
@@ -8,12 +9,12 @@ function Footer() {
       <div className="footer-column">
         <h3>CURSOPIA</h3>
         <a href="#">Sobre nosotros</a>
-        <Link to="/curso-ingles-pre">Cursos de ingles</Link>
+        <Link to="/preview?topic=ingles">Cursos de ingles</Link>
       </div>
       <div className="footer-column">
         <h3>CONTACTO</h3>
-        <a href="#">Inicio</a>
-        <a href="#">Email</a>
+        <Link to="/">Inicio</Link>
+        <a href="mailto:contacto@cursopia.com">Email</a>
         <a href="#">GitHub</a>
       </div>
       <div className="footer-column footer-contact-form">
@@ -31,9 +32,7 @@ function Layout() {
   return (
     <div className="page-layout">
       <Header />
-      <main className="page-content">
-        <Outlet /> 
-      </main>
+      <main className="page-content">{<Outlet />}</main>
       <Footer />
     </div>
   );

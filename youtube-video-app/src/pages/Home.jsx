@@ -1,7 +1,10 @@
+// src/pages/Home.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 import EstudianteImagen from '../assets/Estudiante.png';
-import { Link } from 'react-router-dom';
+import InteractiveFeatureCard from '../components/InteractiveFeatureCard';
+import TalkbackToggleSimple from '../components/TalkbackToggleSimple';
 
 function Home() {
   return (
@@ -13,31 +16,35 @@ function Home() {
           La mejor página educativa para el proceso de alfabetización <br />
           y aprendizaje del idioma inglés
         </p>
+        <div className="talkback-container">
+          <TalkbackToggleSimple />
+        </div>
       </section>
 
       <section className="features">
         <h2>¿Por qué elegir Cursopia?</h2>
         <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">A</div>
-            <h3>Aprendizaje Interactivo</h3>
-            <p>Actividades y juegos diseñados para que aprendas de forma divertida.</p>
-          </div>
-
-          {/* Se actualiza el enlace a la nueva URL */}
-          <Link to="/curso-ingles-pre" className="feature-card-link">
-            <div className="feature-card">
-              <div className="feature-icon">🌐</div>
-              <h3>Inglés desde Cero</h3>
-              <p>Un camino claro y estructurado para dominar el idioma inglés.</p>
-            </div>
-          </Link>
-
-          <div className="feature-card">
-            <div className="feature-icon">📈</div>
-            <h3>Seguimiento de Progreso</h3>
-            <p>Visualiza tu avance y mantente motivado con nuestras estadísticas.</p>
-          </div>
+          <InteractiveFeatureCard
+            icon="A"
+            title="Alfabetización desde Cero"
+            description="Un programa diseñado para aprender a leer y escribir con confianza y seguridad."
+            linkTo="/preview?topic=alfabetizacion"
+            talkbackText="Ir a la vista previa del curso de Alfabetización"
+          />
+          <InteractiveFeatureCard
+            icon="🌐"
+            title="Inglés desde Cero"
+            description="Un camino claro y estructurado para dominar el idioma inglés."
+            linkTo="/preview?topic=ingles"
+            talkbackText="Ir a la vista previa del curso de Inglés"
+          />
+          <InteractiveFeatureCard
+            icon="📈"
+            title="Seguimiento de Progreso"
+            description="Visualiza tu avance y mantente motivado con nuestras estadísticas."
+            linkTo="/preview?topic=progreso"
+            talkbackText="Ir a la vista previa del Seguimiento de Progreso"
+          />
         </div>
       </section>
 
@@ -53,15 +60,29 @@ function Home() {
         </div>
       </section>
       
-      <section className="about-us">
+      <section id="about" className="about-us">
         <h2>SOMOS CURSOPIA</h2>
         <p>
           Un proyecto universitario comprometido con el aprendizaje inclusivo y la
-          transformación social.
+          transformación social. Nuestra misión es ofrecer herramientas educativas
+          accesibles para personas de la tercera edad que deseen mejorar su
+          alfabetización y aprender inglés desde cero.
         </p>
         <div className="about-buttons">
-          <button className="button tertiary">Empezar mi alfabetización</button>
-          <button className="button tertiary">Empezar mi inglés</button>
+          <Link 
+            to="/preview?topic=alfabetizacion" 
+            className="button tertiary" 
+            aria-label="Ir al curso de alfabetización"
+          >
+            Empezar mi alfabetización
+          </Link>
+          <Link 
+            to="/preview?topic=ingles" 
+            className="button tertiary" 
+            aria-label="Ir al curso de inglés"
+          >
+            Empezar mi inglés
+          </Link>
         </div>
       </section>
     </>

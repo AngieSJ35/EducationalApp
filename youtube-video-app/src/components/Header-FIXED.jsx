@@ -17,28 +17,26 @@ function Header() {
     setShowLogoutModal(false);
   };
 
-  const renderAuthButtons = () => {
+  const renderNavButtons = () => {
     if (!isLoggedIn) {
       return (
-        <>
-          <Link to="/login" className="button secondary">Iniciar Sesión</Link>
-          <Link to="/register" className="button primary">Registrarse</Link>
-        </>
+        <div className="nav-buttons">
+          <Link to="/login" className="nav-button">Iniciar Sesión</Link>
+          <Link to="/register" className="nav-button register">Registrarse</Link>
+        </div>
       );
     }
 
-    const userName = user.nombre_completo || user.nombre || user.name || 'Usuario';
     return (
-      <>
-        <span className="user-greeting">¡Hola, {userName}!</span>
+      <div className="nav-buttons">
+        <span className="user-greeting">Hola, {user.name}</span>
         <button 
           onClick={() => setShowLogoutModal(true)}
-          className="button secondary" 
-          aria-label="Cerrar sesión"
+          className="nav-button logout"
         >
-          Cerrar sesión
+          Cerrar Sesión
         </button>
-      </>
+      </div>
     );
   };
 
@@ -49,17 +47,7 @@ function Header() {
           <Link to="/" className="logo">
             <h1>CURSOPIA</h1>
           </Link>
-          
-          {/* Navegación central */}
-          <nav className="main-nav">
-            <a href="#about" className="nav-link">Sobre nosotros</a>
-            <a href="mailto:contacto@cursopia.com" className="nav-link">Contactame</a>
-          </nav>
-
-          {/* Botones de autenticación */}
-          <div className="auth-buttons">
-            {renderAuthButtons()}
-          </div>
+          {renderNavButtons()}
         </div>
       </header>
 

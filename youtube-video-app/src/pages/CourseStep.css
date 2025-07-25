@@ -84,3 +84,91 @@
   pointer-events: none;
   opacity: 0.3;
 }
+/* src/pages/AuthPage.css */
+
+/* ... (todos tus estilos anteriores) ... */
+
+/* --- Estilos para la Política de Privacidad --- */
+.privacy-policy-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.privacy-policy-container label {
+  font-size: 0.9rem;
+  color: #b0bec5;
+}
+
+.policy-link {
+  color: #72b6ba; /* Color principal para destacar */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.policy-link:hover {
+  color: #a3e0e4;
+}
+
+/* --- Estilos para el Botón Deshabilitado --- */
+.auth-btn:disabled {
+  background-color: #5a6a70;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --- Estilos para el Popup/Overlay --- */
+.policy-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Para que aparezca por encima de todo */
+}
+
+.policy-content {
+  background-color: #1a2428;
+  padding: 2rem 3rem;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+}
+
+.policy-content h2 {
+  margin-bottom: 1.5rem;
+  color: #eaf0f2;
+}
+
+.policy-content p, .policy-content strong {
+  text-align: left;
+  line-height: 1.8;
+  color: #b0bec5;
+  margin-bottom: 1rem;
+}
+
+.policy-content strong {
+  display: block;
+  color: #eaf0f2;
+}
+
+.policy-content button {
+  margin-top: 1.5rem;
+}
+
+.step-action-button-container {
+  text-align: center;
+  margin-bottom: 4rem;
+  /* Nuevos estilos para alinear los botones */
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

@@ -161,3 +161,7 @@
   gap: 1.5rem;
   flex-wrap: wrap;
 }
+/* Añadir a src/pages/Home.css */
+.talkback-container {
+  margin-top: 2rem;
+}

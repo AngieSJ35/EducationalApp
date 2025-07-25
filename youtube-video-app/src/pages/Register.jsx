@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Axios configurado
+import { useNavigate, Link } from 'react-router-dom';
+import { authAPI } from '../api'; // Axios configurado
 import './Login.css';
 import './Register.css';
 
@@ -12,31 +12,41 @@ function Register() {
   const [correo, setCorreo] = useState('');
   const [celular, setCelular] = useState('');
   const [clave, setClave] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // 2️⃣ Función para manejar el envío del formulario
   const handleRegister = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setError('');
 
-    // Validación rápida (puedes mejorarla luego)
-    if (!correo && !celular) {
-      alert('Debes ingresar al menos un correo o celular');
+    // Validación básica
+    if (!correo || !nombre || !clave) {
+      setError('Todos los campos son obligatorios');
+      setIsLoading(false);
       return;
     }
 
     try {
-      // 3️⃣ Enviamos los datos al backend
-     const res = await api.post('/usuarios', {
-        nombre_completo:nombre,
+      // 3️⃣ Enviamos los datos al backend usando authAPI
+      const response = await authAPI.register({
+        nombre_completo: nombre,
         email: correo,
         contrasena: clave
       });
-      console.log(res)
 
-      alert('Registro exitoso. Ya puedes iniciar sesión.');
-      navigate('/login');
+      if (response && response.user) {
+        alert('Registro exitoso. Ya puedes iniciar sesión.');
+        navigate('/login');
+      } else {
+        throw new Error('Error en el registro');
+      }
     } catch (error) {
       console.error('Error al registrar usuario:', error);
-      alert('No se pudo registrar el usuario');
+      setError(error.message || 'No se pudo registrar el usuario');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,29 +60,37 @@ function Register() {
               <label>NOMBRE</label>
               <input
                 type="text"
-                placeholder="Nombre..."
+                placeholder="Nombre completo..."
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
+                required
+                disabled={isLoading}
               />
             </div>
+            
             <div className="input-field">
-              <label>CORREO*</label>
+              <label>CORREO</label>
               <input
                 type="email"
                 placeholder="Tu correo..."
                 value={correo}
                 onChange={(e) => setCorreo(e.target.value)}
+                required
+                disabled={isLoading}
               />
             </div>
+            
             <div className="input-field">
-              <label>CELULAR*</label>
+              <label>CELULAR (opcional)</label>
               <input
                 type="tel"
                 placeholder="Tu celular..."
                 value={celular}
                 onChange={(e) => setCelular(e.target.value)}
+                disabled={isLoading}
               />
             </div>
+            
             <div className="input-field">
               <label>CLAVE</label>
               <input
@@ -80,17 +98,30 @@ function Register() {
                 placeholder="Tu clave..."
                 value={clave}
                 onChange={(e) => setClave(e.target.value)}
+                required
+                disabled={isLoading}
               />
             </div>
 
-            <p className="form-notice">
-              * Solo uno de estos es necesario para registrarse
-            </p>
+            {error && (
+              <div className="error-message" style={{
+                color: '#ff4444', 
+                fontSize: '14px', 
+                marginBottom: '10px',
+                textAlign: 'center'
+              }}>
+                {error}
+              </div>
+            )}
 
-            <button type="submit" className="button primary register-btn">
-              Registrarse
+            <button type="submit" className="register-btn" disabled={isLoading}>
+              {isLoading ? 'Registrando...' : 'REGISTRARSE'}
             </button>
           </form>
+
+          <div className="login-link">
+            <p>¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link></p>
+          </div>
         </div>
         <div className="register-image-section">
           <div className="image-book"></div>

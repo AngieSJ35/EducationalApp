@@ -1,10 +1,19 @@
+// src/pages/CourseStep.jsx
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { courseData } from '../data/courseData';
+import { useParams, useLocation, Link } from 'react-router-dom';
+import { courseData as englishCourseData } from '../data/courseData';
+import { literacyCourseData } from '../data/literacyCourseData';
 import './CourseStep.css';
+import AccessibleButton from '../components/AccessibleButton';
 
 function CourseStep() {
   const { stepId } = useParams();
+  const location = useLocation();
+
+  const isEnglishCourse = location.pathname.startsWith('/curso/paso');
+  
+  const courseData = isEnglishCourse ? englishCourseData : literacyCourseData;
+  const basePath = isEnglishCourse ? '/curso/paso' : '/curso-alfabetizacion/paso';
 
   const currentStepNumber = parseInt(stepId, 10);
   const step = courseData.find(s => s.id === currentStepNumber);
@@ -13,7 +22,7 @@ function CourseStep() {
     return (
       <div className="course-step-container">
         <h1>Paso no encontrado</h1>
-        <Link to="/curso/paso-1">Volver al inicio del curso</Link>
+        <Link to="/dashboard">Volver a la selección de cursos</Link>
       </div>
     );
   }
@@ -28,36 +37,63 @@ function CourseStep() {
       </div>
       <div className="step-content">
         <div className="topic-column">
-          <h2>GRAMÁTICA</h2>
+          <h2>{isEnglishCourse ? 'GRAMÁTICA' : 'LECTOESCRITURA'}</h2>
           <div className="topic-grid">
-            {step.grammar.map((topic, index) => (
-              <button key={index} className="topic-box grammar">{topic}</button>
+            {/* --- CORRECCIÓN AQUÍ --- */}
+            {/* Ahora lee 'topic.title' y cada botón es un Link a su lección */}
+            {step.grammar.map((topic) => (
+              <AccessibleButton 
+                key={topic.id} 
+                className="topic-box grammar" 
+                linkTo={`${basePath}/${step.id}/${topic.id}`}
+                ariaLabel={`Aprender sobre ${topic.title}`}
+              >
+                {topic.title}
+              </AccessibleButton>
             ))}
           </div>
         </div>
         <div className="topic-column">
           <h2>VOCABULARIO</h2>
           <div className="topic-grid">
-            {step.vocabulary.map((topic, index) => (
-              <button key={index} className="topic-box vocabulary">{topic}</button>
+            {/* --- CORRECCIÓN AQUÍ --- */}
+            {step.vocabulary.map((topic) => (
+              <AccessibleButton 
+                key={topic.id} 
+                className="topic-box vocabulary" 
+                linkTo={`${basePath}/${step.id}/${topic.id}`}
+                ariaLabel={`Aprender sobre ${topic.title}`}
+              >
+                {topic.title}
+              </AccessibleButton>
             ))}
           </div>
         </div>
       </div>
       <div className="step-action-button-container">
-        <button className="button tertiary">REALIZAR OBJETIVOS</button>
+        <AccessibleButton linkTo="/dashboard" className="button secondary">
+          Volver al Dashboard
+        </AccessibleButton>
+        <AccessibleButton className="button tertiary">
+          REALIZAR OBJETIVOS
+        </AccessibleButton>
       </div>
-
       <div className="step-navigation">
-        <Link to={`/curso/paso/${currentStepNumber - 1}`} className={`nav-arrow left ${isFirstStep ? 'disabled' : ''}`}>
+        <AccessibleButton 
+          linkTo={`${basePath}/${currentStepNumber - 1}`} 
+          className={`nav-arrow left ${isFirstStep ? 'disabled' : ''}`}
+          ariaLabel="Ir al paso anterior"
+        >
           ◀
-        </Link>
-        
+        </AccessibleButton>
         <span>PASO {currentStepNumber} (HASTA {courseData.length})</span>
-
-        <Link to={`/curso/paso/${currentStepNumber + 1}`} className={`nav-arrow right ${isLastStep ? 'disabled' : ''}`}>
+        <AccessibleButton 
+          linkTo={`${basePath}/${currentStepNumber + 1}`} 
+          className={`nav-arrow right ${isLastStep ? 'disabled' : ''}`}
+          ariaLabel="Ir al siguiente paso"
+        >
           ▶
-        </Link>
+        </AccessibleButton>
       </div>
     </div>
   );

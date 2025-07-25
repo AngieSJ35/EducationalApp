@@ -1,32 +1,43 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api'; // 👈 Importamos Axios configurado
+import { authAPI } from '../api'; // 👈 Importamos el authAPI configurado
 import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
   const [correo, setCorreo] = useState('');
   const [clave, setClave] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setError('');
 
     try {
-      const res = await api.post('/auth/login', {
+      const response = await authAPI.login({
         email: correo,
         password: clave
       });
-console.log(res)
-      // Guardar datos del usuario
-      localStorage.setItem('user', JSON.stringify(res.data));
-      alert('Inicio de sesión exitoso');
 
-      // Redirigir al curso
-      navigate('/curso/paso/1');
+      if (response && response.user && response.token) {
+        // Guardar datos del usuario y token
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        alert('Inicio de sesión exitoso');
+
+        // Redirigir a la selección de cursos
+        navigate('/course-selection');
+      } else {
+        throw new Error('Respuesta inválida del servidor');
+      }
 
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
-      alert('Correo o clave incorrectos');
+      setError(error.message || 'Correo o clave incorrectos');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,11 +50,12 @@ console.log(res)
             <div className="input-field">
               <label>CORREO</label>
               <input
-                type="text"
+                type="email"
                 placeholder="Tu correo..."
                 value={correo}
                 onChange={(e) => setCorreo(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
             <div className="input-field">
@@ -54,12 +66,29 @@ console.log(res)
                 value={clave}
                 onChange={(e) => setClave(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
-            <button type="submit" className="button primary login-btn">
-              Iniciar sesión
+
+            {error && (
+              <div className="error-message" style={{
+                color: '#ff4444', 
+                fontSize: '14px', 
+                marginBottom: '10px',
+                textAlign: 'center'
+              }}>
+                {error}
+              </div>
+            )}
+
+            <button type="submit" className="login-btn" disabled={isLoading}>
+              {isLoading ? 'Iniciando sesión...' : 'ENTRAR'}
             </button>
           </form>
+          
+          <div className="register-link">
+            <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+          </div>
         </div>
         <div className="login-image-section">
           <div className="image-book"></div>
